@@ -1,0 +1,17 @@
+{
+  "name": "mongodb-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
+    "mongodb.connection.string":"mongodb+srv://sagar:login123@godspeed.tz65a.mongodb.net/",
+    "tasks.max": "1",
+    "mongodb.hosts": "rs0/localhost:27017",
+    "mongodb.name": "godspeed",
+    "mongodb.user": "sagar",
+    "mongodb.password": "login123",
+    "database.include.list": "cdc_project",
+    "collection.include.list": "cdc_project.orders",
+    "snapshot.mode": "initial",
+    "tombstones.on.delete": "false",
+    "topic.prefix": "mongodb"
+  }
+}

@@ -1,0 +1,213 @@
+{
+    "payload": {
+        "after": "{\"_id\": {\"$oid\": \"6785267ec9acf9fdbd83da0d\"},\"orderId\": \"ORD-00100\",\"customerId\": \"CUST-001\",\"status\": \"shipped\",\"items\": [{\"name\": \"Mouse\",\"quantity\": 1}],\"createdAt\": \"2024-12-14T20:07:16.197418\",\"updatedAt\": \"2025-01-13T20:07:16.197424\"}",
+        "before": null,
+        "op": "r",
+        "source": {
+            "collection": "orders",
+            "connector": "mongodb",
+            "db": "cdc_project",
+            "lsid": null,
+            "name": "mongodb",
+            "ord": -1,
+            "sequence": null,
+            "snapshot": "last",
+            "ts_ms": 0,
+            "ts_ns": 0,
+            "ts_us": 0,
+            "txnNumber": null,
+            "version": "3.0.6.Final",
+            "wallTime": null
+        },
+        "transaction": null,
+        "ts_ms": 1736943969933,
+        "updateDescription": null
+    },
+    "schema": {
+        "fields": [
+            {
+                "field": "before",
+                "name": "io.debezium.data.Json",
+                "optional": true,
+                "type": "string",
+                "version": 1
+            },
+            {
+                "field": "after",
+                "name": "io.debezium.data.Json",
+                "optional": true,
+                "type": "string",
+                "version": 1
+            },
+            {
+                "field": "updateDescription",
+                "fields": [
+                    {
+                        "field": "removedFields",
+                        "items": {
+                            "optional": false,
+                            "type": "string"
+                        },
+                        "optional": true,
+                        "type": "array"
+                    },
+                    {
+                        "field": "updatedFields",
+                        "name": "io.debezium.data.Json",
+                        "optional": true,
+                        "type": "string",
+                        "version": 1
+                    },
+                    {
+                        "field": "truncatedArrays",
+                        "items": {
+                            "fields": [
+                                {
+                                    "field": "field",
+                                    "optional": false,
+                                    "type": "string"
+                                },
+                                {
+                                    "field": "size",
+                                    "optional": false,
+                                    "type": "int32"
+                                }
+                            ],
+                            "name": "io.debezium.connector.mongodb.changestream.truncatedarray",
+                            "optional": false,
+                            "type": "struct",
+                            "version": 1
+                        },
+                        "optional": true,
+                        "type": "array"
+                    }
+                ],
+                "name": "io.debezium.connector.mongodb.changestream.updatedescription",
+                "optional": true,
+                "type": "struct",
+                "version": 1
+            },
+            {
+                "field": "source",
+                "fields": [
+                    {
+                        "field": "version",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "connector",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "name",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "ts_ms",
+                        "optional": false,
+                        "type": "int64"
+                    },
+                    {
+                        "default": "false",
+                        "field": "snapshot",
+                        "name": "io.debezium.data.Enum",
+                        "optional": true,
+                        "parameters": {
+                            "allowed": "true,first,first_in_data_collection,last_in_data_collection,last,false,incremental"
+                        },
+                        "type": "string",
+                        "version": 1
+                    },
+                    {
+                        "field": "db",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "sequence",
+                        "optional": true,
+                        "type": "string"
+                    },
+                    {
+                        "field": "ts_us",
+                        "optional": true,
+                        "type": "int64"
+                    },
+                    {
+                        "field": "ts_ns",
+                        "optional": true,
+                        "type": "int64"
+                    },
+                    {
+                        "field": "collection",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "ord",
+                        "optional": false,
+                        "type": "int32"
+                    },
+                    {
+                        "field": "lsid",
+                        "optional": true,
+                        "type": "string"
+                    },
+                    {
+                        "field": "txnNumber",
+                        "optional": true,
+                        "type": "int64"
+                    },
+                    {
+                        "field": "wallTime",
+                        "optional": true,
+                        "type": "int64"
+                    }
+                ],
+                "name": "io.debezium.connector.mongo.Source",
+                "optional": false,
+                "type": "struct"
+            },
+            {
+                "field": "op",
+                "optional": true,
+                "type": "string"
+            },
+            {
+                "field": "ts_ms",
+                "optional": true,
+                "type": "int64"
+            },
+            {
+                "field": "transaction",
+                "fields": [
+                    {
+                        "field": "id",
+                        "optional": false,
+                        "type": "string"
+                    },
+                    {
+                        "field": "total_order",
+                        "optional": false,
+                        "type": "int64"
+                    },
+                    {
+                        "field": "data_collection_order",
+                        "optional": false,
+                        "type": "int64"
+                    }
+                ],
+                "name": "event.block",
+                "optional": true,
+                "type": "struct",
+                "version": 1
+            }
+        ],
+        "name": "mongodb.cdc_project.orders.Envelope",
+        "optional": false,
+        "type": "struct"
+    }
+}
