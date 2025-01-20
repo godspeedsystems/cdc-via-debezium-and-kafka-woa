@@ -1,0 +1,17 @@
+id: process_order_events
+summary: Workflow to process CDC events from MongoDB
+tasks:
+  - id: log_event
+    description: Log the incoming CDC event
+    fn: com.gs.log
+    args: <% inputs.data %>
+
+  - id: filter_recent_status_changes
+    description: Filter events where status has changed in the last hour
+    fn: custom_function.filter_status_changes
+    args: <% inputs.data %>
+
+  - id: handle_filtered_events
+    description: Handle filtered events
+    fn: custom_function.handle_filtered_events
+    args: <% outputs.filter_recent_status_changes.data %>

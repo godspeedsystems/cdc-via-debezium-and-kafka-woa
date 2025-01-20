@@ -1,0 +1,9 @@
+type: kafka
+brokers:
+  - localhost:9092
+topics:
+  - mongo_cdc.cdc_project.orders
+consumer_groups:
+  group1:
+    topics:
+      - mongo_cdc.cdc_project.orders

@@ -1,0 +1,2 @@
+kafka.mongo_cdc.cdc_project.orders:
+  fn: process_order_events
