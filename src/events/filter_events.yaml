@@ -1,0 +1,3 @@
+cron.0/10 * * * *:
+  fn: filter_updates
+  authn: false

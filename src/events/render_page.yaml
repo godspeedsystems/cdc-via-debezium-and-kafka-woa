@@ -1,0 +1,11 @@
+http.get./render:
+  summary: Serve HTML Page
+  description: Returns an HTML page
+  fn: renderHtml
+  authn : false
+  responses:
+    200:
+      content:
+        text/html:
+          schema:
+            type: string

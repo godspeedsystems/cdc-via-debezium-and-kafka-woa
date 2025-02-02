@@ -1,0 +1,3 @@
+http.get./api/updated_data:
+  fn: get_updated_data
+  authn: false

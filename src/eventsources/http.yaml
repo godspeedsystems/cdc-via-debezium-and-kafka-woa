@@ -1,0 +1,45 @@
+type: express
+port: 3000
+
+# Serve static files (like index.html)
+static:
+  - path: /main
+    dir: public/  # Ensure this directory exists in your project root
+
+# Basic Swagger Setup
+docs:
+  endpoint: /api-docs
+  info:
+    title: Sample Godspeed App
+    version: 1.1.0
+    summary: some http calls
+    description: lets play with Godspeed
+    contact:
+      name: API Support
+      url: 'http://www.myfintech.com/support'
+      email: support@myfintech.com
+    license:
+      name: Apache 2.0
+      url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+  servers:
+    - url: 'http://localhost:3000'
+      description: Public API server
+    - url: 'http://localhost:3001'
+      description: Internal API server
+
+request_body_limit: 20000
+file_size_limit: 50000
+
+# JWT Authentication (Modify this if needed)
+authn:
+  jwt:
+    secretOrKey: mysecret
+    audience: mycompany
+    issuer: mycompany
+
+# Request & Response Validation
+on_request_validation_error: validations.request.standardResponseyml
+on_response_validation_error:
+  - id: response_validation_error_handler
+    fn: com.gs.return
+    args: <%inputs%>
