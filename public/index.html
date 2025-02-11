@@ -32,16 +32,11 @@
         async function updateAndFetchData() {
             try {
                 console.log("Fetching updated data...");
-                
-                // Step 1: Call filter_events API to process the data
-                // await fetch("http://127.0.0.1:5000/process-json", { method: "GET" });
-    
-                // Step 2: Fetch processed data
+            
                 let response = await fetch("http://localhost:3000/api/updated_data");
                 let responseData = await response.json();
                 console.log("API Response:", responseData);
     
-                // Ensure responseData.data is an array
                 let rawData = responseData.data;
                 if (!Array.isArray(rawData)) {
                     rawData = [rawData]; // Convert to array if needed
@@ -62,7 +57,6 @@
                 rawData.forEach(record => {
                     let order;
     
-                    // ✅ Fix: Parse "after" field (as it's a JSON string)
                     if (typeof record.after === "string") {
                         try {
                             order = JSON.parse(record.after);
@@ -74,7 +68,6 @@
                         order = record.after;
                     }
     
-                    // ✅ Fix: Parse "updatedFields" field (as it's a JSON string)
                     let updatedFields = {};
                     if (typeof record.updateDescription?.updatedFields === "string") {
                         try {
@@ -110,9 +103,9 @@
             }
         }
     
-        // Auto refresh every 10 seconds
+        // Auto refresh every 1 second
         setInterval(updateAndFetchData, 1000);
-        updateAndFetchData(); // Initial load
+        updateAndFetchData(); 
     </script>
     
 </body>
