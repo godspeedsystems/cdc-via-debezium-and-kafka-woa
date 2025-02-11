@@ -26,20 +26,17 @@ def extract_payloads():
 
     for payload in payloads:
         try:
-            # Parse payload as JSON
             payload_json = json.loads(payload)
 
-            # Filter only updates (`op: "u"`)
             if payload_json.get("op") == "u":
                 extracted_data.append(payload_json)
 
         except json.JSONDecodeError:
-            continue  # Skip malformed payloads
+            continue  
 
     if not extracted_data:
         return {"error": "No valid update events found"}
 
-    # Save the extracted data as a properly formatted JSON array
     with open(OUTPUT_FILE, "w", encoding="utf-8") as outfile:
         json.dump(extracted_data, outfile, indent=4)
 
@@ -56,9 +53,8 @@ def auto_process():
     while True:
         print("🔄 Auto-processing JSON data...")
         extract_payloads()
-        time.sleep(1)  # Wait for 5 seconds before running again
+        time.sleep(1)  # Wait for 1 seconds before running again
 
-# Start background thread
 threading.Thread(target=auto_process, daemon=True).start()
 
 if __name__ == '__main__':
