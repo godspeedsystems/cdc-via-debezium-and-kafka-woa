@@ -7,7 +7,6 @@ import time
 
 app = Flask(__name__)
 
-# Define file paths
 INPUT_FILE = "output.txt"
 OUTPUT_FILE = "formatted_output.json"
 
@@ -49,9 +48,8 @@ def process_json():
     return jsonify(result)
 
 def auto_process():
-    """Runs extract_payloads() every 5 seconds in the background."""
     while True:
-        print("🔄 Auto-processing JSON data...")
+        print("Auto-processing JSON data...")
         extract_payloads()
         time.sleep(1)  # Wait for 1 seconds before running again
 
