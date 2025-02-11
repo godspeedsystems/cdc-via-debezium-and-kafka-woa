@@ -5,7 +5,7 @@ const INPUT_FILE = "./output.json";  // Path to Debezium CDC output
 const OUTPUT_FILE = "./updated_data.json";  // Path for filtered updates
 
 export default async function (ctx: GSContext) {
-    ctx.logger.info("🔄 [filter_updates] Filtering updated events...");
+    ctx.logger.info("[filter_updates] Filtering updated events...");
 
     try {
         if (!fs.existsSync(INPUT_FILE)) {
