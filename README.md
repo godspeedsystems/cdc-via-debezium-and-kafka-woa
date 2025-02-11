@@ -1,4 +1,5 @@
-# **CDC-via-debezium-and-Kafka-woa**<img align="right" width="180" src="public/image.png" alt="fork this repository" />
+# **CDC-via-debezium-and-Kafka-woa**
+<img align="right" width="180" src="public/image.png" alt="fork this repository" />
 
 ## **Innovators/Developers​**
 - Hardik Jindal 
