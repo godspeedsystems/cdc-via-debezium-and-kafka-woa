@@ -32,6 +32,6 @@ curl -X GET http://localhost:8083/connectors/mongodb-connector/status
 ```
 use the below command to view the changes in real time, this will save the output in `output.json` file
 ```
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
---topic mongodb.your_database_name.your_collection_name --from-beginning > output.json
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mongodb.cdc_project.orders --from-beginning | jq 'select(.payload.op == "u")' | tee /home/hardik/Desktop/cdc_mongo/output.txt
+
 ```

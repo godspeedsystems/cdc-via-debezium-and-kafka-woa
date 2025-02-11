@@ -9,14 +9,12 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid black; padding: 8px; text-align: left; }
         th { background-color: #f4f4f4; }
-        .error-message { color: red; font-weight: bold; }
+        #error-message { color: red; font-weight: bold; display: none; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h2>Updated Orders</h2>
-    
-    <p id="error-message" class="error-message" style="display: none;">Error fetching data</p>
-
+    <h2>Updated Orders (Auto Refresh Every 10s)</h2>
+    <p id="error-message"></p>
     <table>
         <thead>
             <tr>
@@ -27,39 +25,44 @@
                 <th>Updated At</th>
             </tr>
         </thead>
-        <tbody id="data-table">
-            <!-- Orders will be dynamically inserted here -->
-        </tbody>
+        <tbody id="data-table"></tbody>
     </table>
 
     <script>
-        async function fetchData() {
+        async function updateAndFetchData() {
             try {
+                console.log("Fetching updated data...");
+                
+                // Step 1: Call filter_events API to process the data
+                // await fetch("http://127.0.0.1:5000/process-json", { method: "GET" });
+    
+                // Step 2: Fetch processed data
                 let response = await fetch("http://localhost:3000/api/updated_data");
                 let responseData = await response.json();
-
+                console.log("API Response:", responseData);
+    
                 // Ensure responseData.data is an array
                 let rawData = responseData.data;
                 if (!Array.isArray(rawData)) {
-                    rawData = [rawData]; // Convert to array if it's a single object
+                    rawData = [rawData]; // Convert to array if needed
                 }
-
+    
                 let tableBody = document.getElementById("data-table");
                 let errorMessage = document.getElementById("error-message");
-
+    
                 tableBody.innerHTML = "";  // Clear previous data
                 errorMessage.style.display = "none";  // Hide error message
-
+    
                 if (rawData.length === 0) {
                     errorMessage.textContent = "No updated orders available.";
                     errorMessage.style.display = "block";
                     return;
                 }
-
+    
                 rawData.forEach(record => {
                     let order;
-                    
-                    // If "after" is a string, parse it
+    
+                    // ✅ Fix: Parse "after" field (as it's a JSON string)
                     if (typeof record.after === "string") {
                         try {
                             order = JSON.parse(record.after);
@@ -70,20 +73,32 @@
                     } else {
                         order = record.after;
                     }
-
-                    // Ensure order is valid
+    
+                    // ✅ Fix: Parse "updatedFields" field (as it's a JSON string)
+                    let updatedFields = {};
+                    if (typeof record.updateDescription?.updatedFields === "string") {
+                        try {
+                            updatedFields = JSON.parse(record.updateDescription.updatedFields);
+                        } catch (err) {
+                            console.warn("Skipping malformed 'updatedFields' field:", record.updateDescription.updatedFields);
+                        }
+                    } else {
+                        updatedFields = record.updateDescription?.updatedFields || {};
+                    }
+    
+                    // Ensure order has valid data
                     if (!order || !order.orderId) {
                         console.warn("Skipping invalid record:", record);
                         return;
                     }
-
+    
                     let row = document.createElement("tr");
                     row.innerHTML = `
                         <td>${order.orderId}</td>
-                        <td>${order.customerId}</td>
-                        <td>${order.status}</td>
-                        <td>${order.items.map(item => `${item.name} (${item.quantity})`).join(", ")}</td>
-                        <td>${new Date(order.updatedAt).toLocaleString()}</td>
+                        <td>${order.customerId || "N/A"}</td>
+                        <td>${order.status || "N/A"}</td>
+                        <td>${order.items ? order.items.map(item => `${item.name} (${item.quantity})`).join(", ") : "N/A"}</td>
+                        <td>${order.updatedAt ? new Date(order.updatedAt).toLocaleString() : "N/A"}</td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -94,10 +109,11 @@
                 errorMessage.style.display = "block";
             }
         }
-
-        // Fetch data on page load and refresh every 10 seconds
-        setInterval(fetchData, 10000);
-        fetchData();
+    
+        // Auto refresh every 10 seconds
+        setInterval(updateAndFetchData, 1000);
+        updateAndFetchData(); // Initial load
     </script>
+    
 </body>
 </html>

@@ -1,3 +1,11 @@
-cron.0/10 * * * *:
+http.post./api/filter_events:
+  summary: Manually filter CDC events
+  description: Filters only updated events from Debezium output.
   fn: filter_updates
-  authn: false
+  authn : false
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
