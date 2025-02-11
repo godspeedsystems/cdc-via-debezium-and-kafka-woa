@@ -9,17 +9,15 @@ export default async function (ctx: GSContext) {
 
     try {
         if (!fs.existsSync(INPUT_FILE)) {
-            ctx.logger.warn("❗ [filter_updates] No CDC file found.");
+            ctx.logger.warn("[filter_updates] No CDC file found.");
             return { message: "No CDC data available" };
         }
 
         const rawData = fs.readFileSync(INPUT_FILE, "utf-8");
-        // ctx.logger.debug("📄 [filter_updates] Raw data read from file:\n" + rawData);
 
-        // Step 1: Normalize the JSON
         const sanitizedData = rawData
-            .replace(/}\s*{/g, "},{") // Convert `}{` into `},{` to create an array-like structure
-            .replace(/"payload":/g, "\"data\":"); // Replace duplicate `payload` keys with unique ones
+            .replace(/}\s*{/g, "},{") 
+            .replace(/"payload":/g, "\"data\":"); 
         
         const jsonArray = `[${sanitizedData}]`;
 
@@ -27,30 +25,28 @@ export default async function (ctx: GSContext) {
         try {
             events = JSON.parse(jsonArray);
         } catch (err) {
-            ctx.logger.error("❌ [filter_updates] Error parsing input JSON:", err);
+            ctx.logger.error("[filter_updates] Error parsing input JSON:", err);
             return { error: "Invalid JSON format even after fixing." };
         }
 
-        // Step 2: Filter for updates
         const updatedEvents = events
             .filter(event => event.data?.op === "u") // Ensure 'data' exists and op is "u"
             .map(event => {
                 try {
-                    return JSON.parse(event.data.after); // Convert escaped JSON string to object
+                    return JSON.parse(event.data.after); 
                 } catch (error) {
-                    ctx.logger.error("❌ [filter_updates] Failed to parse 'after' JSON:", error);
-                    return null; // Skip malformed data
+                    ctx.logger.error("[filter_updates] Failed to parse 'after' JSON:", error);
+                    return null; 
                 }
             })
-            .filter(Boolean); // Remove null values from failed parses
+            .filter(Boolean); 
 
-        // Step 3: Save filtered updates
         fs.writeFileSync(OUTPUT_FILE, JSON.stringify(updatedEvents, null, 2));
 
-        ctx.logger.info(`✅ [filter_updates] Processed ${updatedEvents.length} updated events.`);
+        ctx.logger.info(`[filter_updates] Processed ${updatedEvents.length} updated events.`);
         return { message: "Updated events extracted successfully", count: updatedEvents.length };
     } catch (error) {
-        ctx.logger.error("❌ [filter_updates] Error:", error);
+        ctx.logger.error("[filter_updates] Error:", error);
         return { error: "Failed to process updated events" };
     }
 }
