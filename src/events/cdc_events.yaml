@@ -1,0 +1,8 @@
+kafka.mongodb.cdc_project.orders:
+  fn: filter_updates
+  authn: false
+  responses:
+    200:
+      content:
+        application/json:
+          type: object

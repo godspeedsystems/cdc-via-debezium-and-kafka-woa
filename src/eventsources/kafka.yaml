@@ -1,0 +1,8 @@
+type: kafka
+brokers: 
+  - localhost:9092
+group_id: godspeed-cdc-listener
+topics:
+  mongodb.cdc_project.orders:
+    fn: process_cdc_event
+auto_offset_reset: latest

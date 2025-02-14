@@ -1,0 +1,7 @@
+type: kafka
+brokers: 
+  - localhost:9092  # Update this with your Kafka broker address
+group_id: godspeed-cdc-consumer
+topics:
+  - mongodb.cdc_project.orders
+auto_offset_reset: latest

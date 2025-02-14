@@ -1,0 +1,4 @@
+kafka.mongodb.cdc_project.orders:
+  fn: process_cdc_event
+  summary: "Process MongoDB CDC Events"
+  description: "Triggered when a new CDC event is published on Kafka topic"
