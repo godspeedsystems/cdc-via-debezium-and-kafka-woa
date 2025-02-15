@@ -156,6 +156,12 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
 
 ---
 
+### ** For JSON formatting and filtering**
+```python
+python3 app.py
+```
+Since kafka stream logs are not in a proper json format, the above script uses `regex` to filter out the required fields and then converts it into a proper json format.
+
 ## **📜 Kafka Stream Processing**
 If you want **additional filtering & transformations**, use **Kafka Streams**:
 ```java
