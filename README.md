@@ -156,7 +156,7 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
 
 ---
 
-### ** For JSON formatting and filtering**
+### **For JSON formatting and filtering**
 ```python
 python3 app.py
 ```
